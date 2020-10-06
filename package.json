@@ -62,6 +62,7 @@
 		"react-slick": "^0.26.1",
 		"react-split-flap-display": "^0.1.0",
 		"slick-carousel": "^1.8.1",
-		"sweetalert": "^2.1.2"
+		"sweetalert": "^2.1.2",
+		"three": "^0.121.1"
 	}
 }
