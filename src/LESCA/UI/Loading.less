@@ -1,0 +1,73 @@
+.loop(@n, @l:0) when (@l <= @n) {
+	&:nth-child(@{l}) {
+		transform: rotate(@l*20deg);
+		opacity: @l * 0.05;
+	}
+	.loop(@n,(@l+1));
+}
+
+#lesca-loading {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+
+	.lesca-loading-c {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-top: -25px;
+
+		.l {
+			position: absolute;
+			width: 15px;
+			height: 2px;
+			left: 20px;
+			transform-origin: -20px 0px;
+			background-color: #fff;
+
+			.loop(18);
+		}
+
+		.dark {
+			background-color: #fff;
+		}
+
+		.light {
+			background-color: #343a40;
+		}
+	}
+
+	.lesca-loading-text {
+		position: absolute;
+		top: 50%;
+		text-align: center;
+		width: 100%;
+		margin-top: 20px;
+	}
+
+	.lesca-loading-bg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		opacity: 0.95;
+	}
+
+	.dark {
+		background-color: #111;
+	}
+
+	.tdark {
+		color: #f8f9fa;
+	}
+
+	.light {
+		background-color: #f8f9fa;
+	}
+
+	.tlight {
+		color: #111;
+	}
+}
