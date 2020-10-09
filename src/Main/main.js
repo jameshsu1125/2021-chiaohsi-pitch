@@ -1,26 +1,20 @@
 import React from 'react';
 import './main.less';
+import Canvas3d from './../canvas3d/main';
 
 export default class main extends React.Component {
 	constructor(props) {
 		super(props);
 		const root = this;
-		//script
 	}
 
-	componentDidMount() {
-		//script
-	}
-
-	componentDidUpdate() {
-		//script
-	}
-
-	componentWillUnmount() {
-		//script
-	}
+	componentDidMount() {}
 
 	render() {
-		return <div id='main'></div>;
+		return (
+			<div id='main'>
+				<Canvas3d />
+			</div>
+		);
 	}
 }
