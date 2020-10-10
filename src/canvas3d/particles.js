@@ -44,9 +44,9 @@ module.exports = {
 
 		const uniforms = {
 			uTime: { value: 0 },
-			uRandom: { value: 1.0 },
-			uDepth: { value: 2.0 },
-			uSize: { value: 0.0 },
+			uRandom: { value: 0 },
+			uDepth: { value: 40.0 },
+			uSize: { value: 1.5 },
 			uTextureSize: { value: new THREE.Vector2(this.width, this.height) },
 			uTexture: { value: this.texture },
 			uTouch: { value: null },
@@ -54,15 +54,15 @@ module.exports = {
 
 		const material = new THREE.RawShaderMaterial({
 			uniforms,
-			vertexShader: glslify(require('./shaders/particle.vert')),
-			fragmentShader: glslify(require('./shaders/particle.frag')),
+			vertexShader: glslify(require('./shaders/particle.vert').default),
+			fragmentShader: glslify(require('./shaders/particle.frag').default),
 			depthTest: false,
 			side: THREE.DoubleSide,
 			transparent: true,
-			// blending: THREE.AdditiveBlending
+			//blending: THREE.AdditiveBlending,
 		});
 
-		var geometry = new THREE.BufferGeometry();
+		var geometry = new THREE.InstancedBufferGeometry();
 
 		const positions = new THREE.BufferAttribute(new Float32Array(4 * 3), 3);
 		positions.setXYZ(0, -0.5, 0.5, 0.0);
@@ -99,11 +99,19 @@ module.exports = {
 
 		this.object3D = new THREE.Mesh(geometry, material);
 		this.container.add(this.object3D);
+
+		var resize = () => {
+			this.resize();
+		};
+		resize();
+		window.addEventListener('resize', resize);
 	},
 	update(delta) {
-		if (this.object3D) {
-			this.object3D.material.uniforms.uTime.value += delta;
-			//this.object3D.material.uniforms.time.value += delta;
-		}
+		if (this.object3D) this.object3D.material.uniforms.uTime.value += delta;
+	},
+	resize() {
+		if (!this.object3D) return;
+		const scale = window.innerWidth / window.innerHeight;
+		this.object3D.scale.set(scale, scale, 1);
 	},
 };

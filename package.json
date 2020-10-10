@@ -29,10 +29,14 @@
 		"babel-plugin-react-html-attrs": "^2.1.0",
 		"css-loader": "^2.0.1",
 		"file-loader": "^2.0.0",
+		"glslify": "6.2.1",
+		"glslify-import-loader": "^0.1.2",
+		"glslify-loader": "^2.0.0",
 		"less": "^3.9.0",
 		"less-loader": "^4.1.0",
 		"postcss": "^7.0.7",
 		"postcss-loader": "^3.0.0",
+		"raw-loader": "^4.0.2",
 		"react-hot-loader": "^4.6.1",
 		"style-loader": "^0.23.1",
 		"styled-components": "^5.2.0",
@@ -47,7 +51,9 @@
 		"clipboard": "^2.0.4",
 		"dat.gui": "^0.7.3",
 		"exif-js": "^2.3.0",
+		"glsl-noise": "0.0.0",
 		"google-maps": "^4.3.2",
+		"gsap": "^3.5.1",
 		"howler": "^2.1.1",
 		"jquery": "^3.5.0",
 		"jquery-easing": "0.0.1",
@@ -62,7 +68,9 @@
 		"react-slick": "^0.26.1",
 		"react-split-flap-display": "^0.1.0",
 		"slick-carousel": "^1.8.1",
+		"stats-js": "^1.0.1",
 		"sweetalert": "^2.1.2",
-		"three": "^0.121.1"
+		"three": "^0.121.1",
+		"three-orbit-controls": "^82.1.0"
 	}
 }

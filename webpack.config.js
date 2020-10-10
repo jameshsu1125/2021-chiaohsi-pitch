@@ -18,6 +18,8 @@ module.exports = {
 			{ test: /\.(ogv|mp4)$/, use: [{ loader: 'file-loader', options: { name: '_vid/[path][name].[ext]', context: 'src' } }] },
 			{ test: /\.(wav|mp3)$/, use: [{ loader: 'file-loader', options: { name: '_aud/[path][name].[ext]', context: 'src' } }] },
 			{ test: /\.(eot|woff|woff2|ttf)$/, use: [{ loader: 'file-loader', options: { name: '_font/[path][name].[ext]', context: 'src' } }] },
+			{ test: /\.(glsl|vs|fs|vert|frag)$/, exclude: /node_modules/, use: ['glslify-import-loader', 'raw-loader', 'glslify-loader'] },
+			{ test: /three\/examples\/js/, use: 'imports-loader?THREE=three' },
 		],
 	},
 	resolve: {
@@ -38,6 +40,9 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.DefinePlugin({
 			__REACT_DEVTOOLS_GLOBAL_HOOK__: '({ isDisabled: true })',
+		}),
+		new webpack.ProvidePlugin({
+			THREE: 'three',
 		}),
 	],
 	optimization: {
