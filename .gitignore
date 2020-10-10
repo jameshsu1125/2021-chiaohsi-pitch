@@ -109,4 +109,4 @@ typings/
 package-lock.json
 
 # backup file
-.backup
+*.backup
