@@ -26,7 +26,7 @@ void main() {
 	float t = smoothstep(0.0, border, dist);
 
 	// final color
-	color = colA;
+	color = colB;
 	color.a = t;
 
 	gl_FragColor = color;

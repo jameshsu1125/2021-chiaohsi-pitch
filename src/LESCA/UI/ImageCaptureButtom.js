@@ -7,7 +7,7 @@ export default class ImageCaptureButtom extends React.Component {
 	constructor(props) {
 		super(props);
 	}
-	set({ file, length = this.props.length || 500, cb }) {
+	set({ file, length = this.props.length || 320, cb }) {
 		var root = this;
 		var ctx = this.refs.canvas.getContext('2d');
 

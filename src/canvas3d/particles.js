@@ -1,10 +1,14 @@
 var THREE = require('three');
 const glslify = require('glslify');
 const $ = require('jquery');
+const { dequeue } = require('jquery');
+require('jquery-easing');
 
 module.exports = {
 	init(Scene, img) {
 		this.container = new THREE.Object3D();
+		this.deg = 0;
+		this.radius = 0;
 
 		const loader = new THREE.TextureLoader();
 		loader.load(img, (texture) => {
@@ -31,8 +35,9 @@ module.exports = {
 		ctx.scale(1, -1);
 		ctx.drawImage(img, 0, 0, this.width, this.height * -1);
 
-		const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-		let originalColors = Float32Array.from(imgData.data);
+		this.imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+		let originalColors = Float32Array.from(this.imgData.data);
 
 		for (let i = 0; i < this.numPoints; i++) {
 			if (originalColors[i * 4 + 0] > threshold) numVisible++;
@@ -41,11 +46,13 @@ module.exports = {
 		this.uniforms = {
 			uTime: { value: 0 },
 			uRandom: { value: 0 },
-			uDepth: { value: 40.0 },
-			uSize: { value: 1.5 },
+			uDepth: { value: 100.0 },
+			uSize: { value: 0.5 },
 			uTextureSize: { value: new THREE.Vector2(this.width, this.height) },
 			uTexture: { value: this.texture },
 			uTouch: { value: null },
+			uPx: { value: 0.0 },
+			uPy: { value: 0.0 },
 		};
 
 		const material = new THREE.RawShaderMaterial({
@@ -85,7 +92,7 @@ module.exports = {
 			offsets[j * 3 + 0] = i % this.width;
 			offsets[j * 3 + 1] = Math.floor(i / this.width);
 			indices[j] = i;
-			angles[j] = Math.random() * Math.PI;
+			angles[j] = (Math.PI / 180) * Math.random() * 360;
 			j++;
 		}
 
@@ -103,11 +110,66 @@ module.exports = {
 		window.addEventListener('resize', resize);
 	},
 	update(delta) {
-		if (this.object3D) this.object3D.material.uniforms.uTime.value += delta;
+		if (this.object3D) {
+			this.object3D.material.uniforms.uTime.value += delta;
+			this.deg += delta;
+			this.uniforms.uPx.value = Math.cos((Math.PI / 180) * this.deg) * this.radius;
+			this.uniforms.uPy.value = Math.sin((Math.PI / 180) * this.deg) * this.radius;
+		}
 	},
 	resize() {
 		if (!this.object3D) return;
-		const scale = window.innerWidth / window.innerHeight;
-		this.object3D.scale.set(scale, scale, 1);
+		const s = (window.innerWidth / window.innerHeight) * 0.8;
+		this.object3D.scale.set(s, s, s);
+	},
+	setDepth(key, v) {
+		this.uniforms[key].value = v;
+	},
+	updateImageData(img) {
+		const loader = new THREE.TextureLoader();
+
+		loader.load(img, (texture) => {
+			this.fadeOut({
+				cb: () => {
+					this.uniforms.uTexture.value = texture;
+					this.uniforms.uTextureSize.value = new THREE.Vector2(this.width, this.height);
+					this.panDepthTo();
+				},
+			});
+			this.fadeIn({});
+		});
+	},
+	fadeOut({ time = 6000, radius = 200, cb = () => {} }) {
+		$(this).animate(
+			{ radius: radius },
+			{
+				duration: time,
+				easing: 'easeOutQuart',
+				complete: () => {
+					cb();
+				},
+			}
+		);
+	},
+	fadeIn({ time = 6000, radius = 0, cb = () => {} }) {
+		$(this).animate(
+			{ radius: radius },
+			{
+				duration: time,
+				easing: 'easeOutQuart',
+				complete: () => {
+					cb();
+				},
+			}
+		);
+	},
+	panDepthTo(v = 10, time = 6000) {
+		$(this.uniforms.uDepth).animate(
+			{
+				value: v,
+			},
+			time,
+			'easeOutQuart'
+		);
 	},
 };
