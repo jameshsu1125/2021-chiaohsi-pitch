@@ -15,7 +15,7 @@ export default class main extends React.Component {
 	constructor(props) {
 		super(props);
 
-		var img = require('./img/S__21594114.jpg');
+		var img = require('./img/43264776_10156777062728817_5423369888875937792_o.png');
 		Particles.init(Scene, img);
 
 		this.appendGUI();
