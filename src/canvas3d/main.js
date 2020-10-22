@@ -15,7 +15,7 @@ export default class main extends React.Component {
 	constructor(props) {
 		super(props);
 
-		var img = require('./img/43264776_10156777062728817_5423369888875937792_o.png');
+		var img = require('./img/S__21594114.jpg');
 		Particles.init(Scene, img);
 
 		this.appendGUI();
@@ -47,7 +47,7 @@ export default class main extends React.Component {
 		var gui = new Dat.GUI();
 		var p = {
 			center: false,
-			Depth: 100,
+			Depth: Particles.uDepth,
 			Random: 0,
 			Size: 0.5,
 			addImageData: this.update,

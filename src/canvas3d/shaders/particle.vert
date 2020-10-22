@@ -23,45 +23,55 @@ uniform float uPy;
 varying vec2 vPUv;
 varying vec2 vUv;
 
-#pragma glslify: snoise_1_2 = require(glsl-noise/simplex/2d);
+#pragma glslify:snoise_1_2=require(glsl-noise/simplex/2d);
 
-float random(float n) {
-	return fract(sin(n) * 43758.5453123);
+float random(float n){
+	return fract(sin(n)*43758.5453123);
 }
 
-void main() {
-	vUv = uv;
-
+void main(){
+	vUv=uv;
+	
 	// particle uv
-	vec2 puv = offset.xy / uTextureSize;
-	vPUv = puv;
-
+	vec2 puv=offset.xy/uTextureSize;
+	vPUv=puv;
+	
 	// pixel color
-	vec4 colA = texture2D(uTexture, puv);
-	float grey = colA.r * 0.21 + colA.g * 0.71 + colA.b * 0.07;
-
+	vec4 colA=texture2D(uTexture,puv);
+	float grey=colA.r*.21+colA.g*.71+colA.b*.17;
+	
 	// displacement
-	vec3 displaced = offset;
-
+	vec3 displaced=offset;
+	
+	displaced.xy+=vec2(random(pindex)-0.5,random(offset.x+pindex)-0.5)*uRandom;
+	float rndz=(random(pindex)+snoise_1_2(vec2(pindex*.1,uTime*0.1)));
+	displaced.z+=rndz*(random(pindex)*2.*uDepth);
+	
 	// center
-	displaced.xy -= uTextureSize * 0.5;
-
+	displaced.xy-=uTextureSize*.5;
+	
 	// randomise
-	float rndz = (random(pindex) + snoise_1_2(vec2(pindex * 2.2, uTime * 0.1)));
-	displaced.z += rndz * (random(pindex) * 2.0 * uDepth);
-
-	displaced.x += cos(angle) * uPx;
-	displaced.y += sin(angle) * uPx;
-
+	
+	displaced.x+=cos(angle)*uPx;
+	displaced.y+=sin(angle)*uPx;
+	
+	//displaced.xy-=cos(angle)*20.;
+	//displaced.xy+=cos(angle)*10.;
+	//displaced.z+=cos(angle)*100.;
+	//displaced.x+=tan(angle)*1.;
+	
+	//displaced.x+=cos(angle)*uPx*grey;
+	//displaced.y+=sin(angle)*uPx*grey;
+	
 	// particle size
-	float psize = 2.9;//(snoise_1_2(vec2(uTime, pindex) * 0.5) + 2.0);
-	psize *= max(grey, 0.2);
-	psize *= uSize;
-
+	float psize=(snoise_1_2(vec2(uTime*.3,pindex)*.5)+1.);
+	psize*=max(grey,.2);
+	psize*=uSize;
+	
 	// final position
-	vec4 mvPosition = modelViewMatrix * vec4(displaced, 1.0);
-	mvPosition.xyz += position * psize;
-	vec4 finalPosition = projectionMatrix * mvPosition;
-
-	gl_Position = finalPosition;
+	vec4 mvPosition=modelViewMatrix*vec4(displaced,1.);
+	mvPosition.xyz+=position*psize;
+	vec4 finalPosition=projectionMatrix*mvPosition;
+	
+	gl_Position=finalPosition;
 }

@@ -45,7 +45,10 @@ module.exports = {
 	},
 	appendCanvas() {
 		document.getElementById('canvas3d').appendChild(this.renderer.domElement);
-		document.styleSheets[0].insertRule('canvas { outline:none; border:none; }', 0);
+		document.styleSheets[0].insertRule(
+			'canvas { outline:none; border:none; }',
+			0
+		);
 	},
 	zoom() {
 		this.controls.zoom(this.z);

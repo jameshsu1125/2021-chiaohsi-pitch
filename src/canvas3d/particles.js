@@ -7,8 +7,9 @@ require('jquery-easing');
 module.exports = {
 	init(Scene, img) {
 		this.container = new THREE.Object3D();
-		this.deg = 0;
-		this.radius = 0;
+		this.deg = 0.0;
+		this.radius = 0.0;
+		this.uDepth = 0;
 
 		const loader = new THREE.TextureLoader();
 		loader.load(img, (texture) => {
@@ -24,7 +25,10 @@ module.exports = {
 		this.numPoints = this.width * this.height;
 
 		let numVisible = 0,
-			threshold = 34;
+			threshold = 34,
+			degree = 1.0703446180271743;
+
+		console.log(degree);
 
 		const img = this.texture.image;
 		const canvas = document.createElement('canvas');
@@ -46,11 +50,12 @@ module.exports = {
 		this.uniforms = {
 			uTime: { value: 0 },
 			uRandom: { value: 0 },
+			uDepth: { value: 40.0 },
+			uSize: { value: 1.5 },
 			uDepth: { value: 100.0 },
 			uSize: { value: 0.5 },
 			uTextureSize: { value: new THREE.Vector2(this.width, this.height) },
 			uTexture: { value: this.texture },
-			uTouch: { value: null },
 			uPx: { value: 0.0 },
 			uPy: { value: 0.0 },
 		};
@@ -81,7 +86,9 @@ module.exports = {
 		uvs.setXYZ(2, 0.0, 1.0);
 		uvs.setXYZ(3, 1.0, 1.0);
 		geometry.setAttribute('uv', uvs);
-		geometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0, 2, 1, 2, 3, 1]), 1));
+		geometry.setIndex(
+			new THREE.BufferAttribute(new Uint16Array([0, 2, 1, 2, 3, 1]), 1)
+		);
 
 		const indices = new Uint16Array(numVisible);
 		const offsets = new Float32Array(numVisible * 3);
@@ -96,9 +103,18 @@ module.exports = {
 			j++;
 		}
 
-		geometry.setAttribute('pindex', new THREE.InstancedBufferAttribute(indices, 1, false));
-		geometry.setAttribute('offset', new THREE.InstancedBufferAttribute(offsets, 3, false));
-		geometry.setAttribute('angle', new THREE.InstancedBufferAttribute(angles, 1, false));
+		geometry.setAttribute(
+			'pindex',
+			new THREE.InstancedBufferAttribute(indices, 1, false)
+		);
+		geometry.setAttribute(
+			'offset',
+			new THREE.InstancedBufferAttribute(offsets, 3, false)
+		);
+		geometry.setAttribute(
+			'angle',
+			new THREE.InstancedBufferAttribute(angles, 1, false)
+		);
 
 		this.object3D = new THREE.Mesh(geometry, material);
 		this.container.add(this.object3D);
@@ -132,7 +148,10 @@ module.exports = {
 			this.fadeOut({
 				cb: () => {
 					this.uniforms.uTexture.value = texture;
-					this.uniforms.uTextureSize.value = new THREE.Vector2(this.width, this.height);
+					this.uniforms.uTextureSize.value = new THREE.Vector2(
+						this.width,
+						this.height
+					);
 					this.panDepthTo();
 				},
 			});
@@ -163,13 +182,13 @@ module.exports = {
 			}
 		);
 	},
-	panDepthTo(v = 10, time = 6000) {
+	panDepthTo(v = 0, time = 6000) {
 		$(this.uniforms.uDepth).animate(
 			{
 				value: v,
 			},
 			time,
-			'easeOutQuart'
+			'easeOutExpo'
 		);
 	},
 };
