@@ -18,25 +18,18 @@ void main() {
 
 	// greyscale
 	float grey = colA.r * 0.21 + colA.g * 0.71 + colA.b * 0.07;
-	if(grey > 0.6)
-	{
-		colB = vec4(grey, grey, grey, 1.0);
-	}
-	else
-	{
-		colB = vec4(grey, grey, grey, 0.5);
-	}
+	colB = vec4(grey, grey, grey, 1.0);
 	
 
 	// circle
-	float border = 0.0;
+	float border = 0.001;
 	float radius = 0.5;
 	float dist = radius - distance(uv, vec2(0.5));
-	float t = smoothstep(1.0, border, dist);
+	float t = smoothstep(0.0, border, dist);
 
 	// final color
 	color = colA;
-	color.a = t;
+	color.a = 1.0;
 
 	gl_FragColor = color;
 }

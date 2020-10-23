@@ -9,7 +9,7 @@ module.exports = {
 		this.container = new THREE.Object3D();
 		this.deg = 0.0;
 		this.radius = 0.0;
-		this.uDepth = 0;
+		this.uDepth = 40.0;
 
 		const loader = new THREE.TextureLoader();
 		loader.load(img, (texture) => {
@@ -50,9 +50,7 @@ module.exports = {
 		this.uniforms = {
 			uTime: { value: 0 },
 			uRandom: { value: 0 },
-			uDepth: { value: 40.0 },
-			uSize: { value: 1.5 },
-			uDepth: { value: 100.0 },
+			uDepth: { value: this.uDepth },
 			uSize: { value: 0.5 },
 			uTextureSize: { value: new THREE.Vector2(this.width, this.height) },
 			uTexture: { value: this.texture },
@@ -182,13 +180,13 @@ module.exports = {
 			}
 		);
 	},
-	panDepthTo(v = 0, time = 6000) {
-		$(this.uniforms.uDepth).animate(
-			{
-				value: v,
-			},
-			time,
-			'easeOutExpo'
-		);
+	panDepthTo(v = 10, time = 6000) {
+		// $(this.uniforms.uDepth).animate(
+		// 	{
+		// 		value: v,
+		// 	},
+		// 	time,
+		// 	'easeOutExpo'
+		// );
 	},
 };
