@@ -2,7 +2,7 @@
 [![made in Taiwan](https://img.shields.io/badge/Made%20in-Taiwan-orange)](https://github.com/jameshsu1125/)
 [![present by Ogilvy](https://img.shields.io/badge/Present%20By-Ogilvy-red)](https://www.ogilvy.com.tw/)
 
-[Demo](https://archive.lesca.net/18/kotex/)
+[Demo](https://ogilvy.lesca.net/_project/chiaoshi/v5/)
 ### pre-install
 
 ```
