@@ -14,10 +14,10 @@ module.exports = {
 			{ test: /\.(js|jsx)$/, exclude: /node_modules/, use: 'babel-loader?retainLines=true' },
 			{ test: /\.less$/, use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'] },
 			{ test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
-			{ test: /\.(png|jpg|gif|svg)$/, use: [{ loader: 'file-loader', options: { name: '_img/[path][name].[ext]', context: 'src' } }] },
-			{ test: /\.(ogv|mp4)$/, use: [{ loader: 'file-loader', options: { name: '_vid/[path][name].[ext]', context: 'src' } }] },
-			{ test: /\.(wav|mp3)$/, use: [{ loader: 'file-loader', options: { name: '_aud/[path][name].[ext]', context: 'src' } }] },
-			{ test: /\.(eot|woff|woff2|ttf)$/, use: [{ loader: 'file-loader', options: { name: '_font/[path][name].[ext]', context: 'src' } }] },
+			{ test: /\.(png|jpg|gif|svg)$/, use: [{ loader: 'file-loader', options: { name: 'img/[path][name].[ext]', context: 'src' } }] },
+			{ test: /\.(ogv|mp4)$/, use: [{ loader: 'file-loader', options: { name: 'vid/[path][name].[ext]', context: 'src' } }] },
+			{ test: /\.(wav|mp3)$/, use: [{ loader: 'file-loader', options: { name: 'aud/[path][name].[ext]', context: 'src' } }] },
+			{ test: /\.(eot|woff|woff2|ttf)$/, use: [{ loader: 'file-loader', options: { name: 'font/[path][name].[ext]', context: 'src' } }] },
 			{ test: /\.(glsl|vs|fs|vert|frag)$/, exclude: /node_modules/, use: ['glslify-import-loader', 'raw-loader', 'glslify-loader'] },
 			{ test: /three\/examples\/js/, use: 'imports-loader?THREE=three' },
 		],
@@ -34,7 +34,7 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist/'),
-		filename: '_js/[name].min.js',
+		filename: 'js/[name].min.js',
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
