@@ -68,7 +68,6 @@
 		"react-dom": "^16.6.3",
 		"react-html-parser": "^2.0.2",
 		"react-slick": "^0.26.1",
-		"react-split-flap-display": "^0.3.2",
 		"slick-carousel": "^1.8.1",
 		"stats-js": "^1.0.1",
 		"sweetalert": "^2.1.2",
