@@ -57,14 +57,15 @@ void main(){
 	float py;
 	float minfiy = 0.01 * uSpeed;
 	float deg = ran * uTime * minfiy;
+	float ease = .05;
 
-	float disTime = uMaxTime - uTime + ( 360.0 - ran ) * .05;
+	float disTime = uMaxTime - uTime + ( 360.0 - ran ) * ease;
 	if(disTime < 0.0){
 		disTime = 0.0;
 	}
 	
 	float nRaduis;
-	if(uTime > uMaxTime - ( 360.0 - ran ) * .05){
+	if(uTime > uMaxTime - ( 360.0 - ran ) * ease){
 		nRaduis = disTime * 0.01;
 	}
 	else {
@@ -77,7 +78,7 @@ void main(){
 	}
 	else if(uMode > 0.9 && uMode < 1.1){
 		px = cos( deg ) * -nRaduis * rndz * layer;
-		py = tan( deg ) * -nRaduis * layer;
+		py = tan( deg * .5 ) * -nRaduis * layer;
 	}
 	else if(uMode > 1.9 && uMode <= 2.1){
 		px = tan( deg * 2.0 ) * nRaduis * layer;

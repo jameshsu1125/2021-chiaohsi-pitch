@@ -14,16 +14,20 @@ module.exports = {
 		uAlpha: { value: 0.0 },
 		uPy: { value: 0.0 },
 		uPx: { value: 0.0 },
-		uRadius: { value: 200.0 },
+		uRadius: { value: Device.get() == 'desktop' ? 200.0 : 30.0 },
 		uSpeed: { value: 0.1 },
 		uMode: { value: 0.0 },
 		uMaxTime: { value: 40.0 },
 	},
 	deg: 0.0,
-	layers: [0, 1, 2, 3, 4, 5, 6, 2, 3, 4, 5, 6, 7],
+	layers: [],
 	init(Scene, img) {
 		this.container = new THREE.Object3D();
 		const loader = new THREE.TextureLoader();
+		for (let i = 0; i < 100; i++) {
+			let count = 1 + Math.floor(Math.random() * 7);
+			this.layers.push(count);
+		}
 		loader.load(img, (texture) => {
 			this.texture = texture;
 			this.width = texture.image.width;
@@ -123,7 +127,6 @@ module.exports = {
 	update(delta) {
 		if (this.object3D) {
 			this.object3D.material.uniforms.uTime.value += delta;
-			//console.log(this.object3D.material.uniforms.uMaxTime.value - this.object3D.material.uniforms.uTime.value);
 			Mode.sync(delta);
 		}
 	},
@@ -131,16 +134,16 @@ module.exports = {
 		if (!this.object3D) return;
 		let r;
 		if (Device.get() == 'desktop') r = 0.00095;
-		else r = 0.0005;
+		else r = 0.001;
 		const s = window.innerHeight * r;
 		this.object3D.scale.set(s, s, s);
 	},
 	setUniforms(key, v) {
 		this.uniforms[key].value = v;
 	},
-	addMaxTime(add = 20) {
+	addMaxTime(add = 30, time = 10000) {
 		let addMoreTime = this.object3D.material.uniforms.uTime.value + add;
-		$(this.uniforms.uMaxTime).animate({ value: addMoreTime }, 3000, 'easeOutQuart');
+		$(this.uniforms.uMaxTime).animate({ value: addMoreTime }, time, 'easeOutQuart');
 	},
 	updateImageData(img) {
 		const loader = new THREE.TextureLoader();

@@ -30,7 +30,10 @@ void main() {
 
 	// final color
 	color = colB;
-	color.a = uAlpha;
+	float nAlpha;
+	if(grey < 0.9)  nAlpha = .0;
+	else nAlpha = uAlpha;
+	color.a = nAlpha;
 
 	gl_FragColor = color;
 }
