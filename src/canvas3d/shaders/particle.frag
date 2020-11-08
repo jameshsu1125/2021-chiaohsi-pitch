@@ -3,6 +3,7 @@
 precision highp float;
 
 uniform sampler2D uTexture;
+uniform float uAlpha;
 
 varying vec2 vPUv;
 varying vec2 vUv;
@@ -28,8 +29,8 @@ void main() {
 	float t = smoothstep(0.0, border, dist);
 
 	// final color
-	color = colA;
-	color.a = 1.0;
+	color = colB;
+	color.a = uAlpha;
 
 	gl_FragColor = color;
 }

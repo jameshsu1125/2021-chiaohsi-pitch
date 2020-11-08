@@ -5,10 +5,7 @@ import Canvas3d from './../canvas3d/main';
 export default class main extends React.Component {
 	constructor(props) {
 		super(props);
-		const root = this;
 	}
-
-	componentDidMount() {}
 
 	render() {
 		return (
