@@ -131,7 +131,7 @@ module.exports = {
 		if (!this.object3D) return;
 		let r;
 		if (Device.get() == 'desktop') r = 0.00095;
-		else r = 0.00065;
+		else r = 0.0005;
 		const s = window.innerHeight * r;
 		this.object3D.scale.set(s, s, s);
 	},
