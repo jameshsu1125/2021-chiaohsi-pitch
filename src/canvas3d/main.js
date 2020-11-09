@@ -104,14 +104,19 @@ export default class main extends React.Component {
 	}
 
 	openSound() {
+		var c = $('.property-name'),
+			t;
+		c.each(function () {
+			if (this.innerText == 'BGM') {
+				t = this;
+				this.innerText = 'BGM:loading...';
+			}
+		});
 		var sound = new Howl({
 			src: [require('./sound/bgm.mp3')],
 			autoplay: true,
 			onplay() {
-				var c = $('.property-name');
-				c.each(function () {
-					if (this.innerText == 'BGM') this.innerText = 'BGM playing';
-				});
+				t.innerText = 'BGM:playing';
 			},
 		});
 		sound.play();

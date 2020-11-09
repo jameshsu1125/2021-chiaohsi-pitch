@@ -50,9 +50,11 @@ void main(){
 	// center
 	displaced.xy -= uTextureSize * .5;
 	
-	float rndz = snoise_1_2( vec2( pindex, uTime * 0.1 ) ) ;
+	// random
+	float rndz = snoise_1_2( vec2( pindex, uTime * 0.01 ) ) ;
 	displaced.z += rndz * uDepth;
 
+	// mode
 	float px;
 	float py;
 	float minfiy = 0.01 * uSpeed;
@@ -60,24 +62,18 @@ void main(){
 	float ease = .05;
 
 	float disTime = uMaxTime - uTime + ( 360.0 - ran ) * ease;
-	if(disTime < 0.0){
-		disTime = 0.0;
-	}
+	if(disTime < 0.0) disTime = 0.0;
 	
 	float nRaduis;
-	if(uTime > uMaxTime - ( 360.0 - ran ) * ease){
-		nRaduis = disTime * 0.01;
-	}
-	else {
-		nRaduis = uRadius;
-	}
+	if(uTime > uMaxTime - ( 360.0 - ran ) * ease) nRaduis = disTime * 0.0;
+	else nRaduis = uRadius;
 
 	if(uMode < 0.1){
 		px = cos( deg ) * nRaduis * layer;
 		py = sin( deg ) * -nRaduis * layer;
 	}
 	else if(uMode > 0.9 && uMode < 1.1){
-		px = cos( deg ) * -nRaduis * rndz * layer;
+		px = cos( deg ) * nRaduis * rndz * layer;
 		py = tan( deg * .5 ) * -nRaduis * layer;
 	}
 	else if(uMode > 1.9 && uMode <= 2.1){
@@ -85,7 +81,7 @@ void main(){
 		py = tan( deg ) * -nRaduis * layer;
 	}
 	else {
-		px = tan( deg * rndz * 0.05 ) * nRaduis * layer;
+		px = tan( deg * rndz ) * nRaduis * layer;
 		py = cos( deg ) * nRaduis * layer;
 	}
 
