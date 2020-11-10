@@ -53,6 +53,7 @@
 		"clipboard": "^2.0.4",
 		"dat.gui": "^0.7.3",
 		"exif-js": "^2.3.0",
+		"glsl-easings": "^1.0.0",
 		"glsl-noise": "0.0.0",
 		"google-maps": "^4.3.2",
 		"gsap": "^3.5.1",
