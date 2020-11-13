@@ -41,9 +41,6 @@ module.exports = {
 		new webpack.DefinePlugin({
 			__REACT_DEVTOOLS_GLOBAL_HOOK__: '({ isDisabled: true })',
 		}),
-		new webpack.ProvidePlugin({
-			THREE: 'three',
-		}),
 	],
 	optimization: {
 		minimize: p == 'production',
