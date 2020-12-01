@@ -8,16 +8,17 @@ require('jquery-easing');
 
 module.exports = {
 	uniforms: {
-		uTime: { value: 20.0 },
-		uDepth: { value: 13.0 },
+		uTime: { value: 0.0 },
+		uDepth: { value: Device.get() == 'desktop' ? 13.0 : 4.0 },
 		uSize: { value: 1.0 },
 		uAlpha: { value: 0.0 },
 		uPy: { value: 0.0 },
 		uPx: { value: 0.0 },
+		uPz: { value: 700.0 },
 		uRadius: { value: Device.get() == 'desktop' ? 200.0 : 30.0 },
 		uSpeed: { value: 0.1 },
 		uMode: { value: 0.0 },
-		uMaxTime: { value: 40.0 },
+		uMaxTime: { value: 5.0 },
 	},
 	deg: 0.0,
 	layers: [],
@@ -47,6 +48,7 @@ module.exports = {
 			this.uniforms.uTextureSize.value = new THREE.Vector2(this.width, this.height);
 			let time = 5000;
 			$(this.uniforms.uAlpha).animate({ value: 1.0 }, time, 'swing');
+			$(this.uniforms.uPz).animate({ value: 0.0 }, 6000, 'easeInExpo');
 		});
 	},
 	addPoints() {
@@ -110,7 +112,7 @@ module.exports = {
 			offsets[j * 3 + 1] = Math.floor(i / this.width);
 			index[j] = i;
 			layer[j] = this.layers[Math.floor(Math.random() * this.layers.length)];
-			ran[j] = 100 + Math.random() * 360;
+			ran[j] = 700 + Math.random() * 3000;
 			j++;
 		}
 
@@ -134,16 +136,17 @@ module.exports = {
 		if (!this.object3D) return;
 		let r;
 		if (Device.get() == 'desktop') r = 0.00095;
-		else r = 0.001;
+		else r = 0.0009;
 		const s = window.innerHeight * r;
 		this.object3D.scale.set(s, s, s);
 	},
 	setUniforms(key, v) {
 		this.uniforms[key].value = v;
 	},
-	addMaxTime(add = 30, time = 10000) {
+	addMaxTime(add = 5, time = 10000) {
 		let addMoreTime = this.object3D.material.uniforms.uTime.value + add;
-		$(this.uniforms.uMaxTime).animate({ value: addMoreTime }, time, 'easeOutQuart');
+		this.object3D.material.uniforms.uTime.value = 0.0;
+		//$(this.uniforms.uMaxTime).animate({ value: addMoreTime }, time, 'easeOutQuart');
 	},
 	updateImageData(img) {
 		const loader = new THREE.TextureLoader();

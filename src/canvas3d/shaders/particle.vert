@@ -19,15 +19,16 @@ uniform vec2 uTextureSize;
 uniform sampler2D uTexture;
 uniform float uPy;
 uniform float uPx;
+uniform float uPz;
 uniform float uRadius;
 uniform float uSpeed;
-uniform float uMode;
 uniform float uMaxTime;
 
 varying vec2 vPUv;
 varying vec2 vUv;
 
 #pragma glslify:snoise_1_2=require(glsl-noise/simplex/2d);
+#pragma glslify: ease = require(glsl-easings/quadratic-in);
 
 float random(float n){
 	return fract(sin(n)*43758.5453123);
@@ -51,43 +52,13 @@ void main(){
 	displaced.xy -= uTextureSize * .5;
 	
 	// random
-	float rndz = snoise_1_2( vec2( pindex, uTime * 0.01 ) ) ;
+	float rndz = snoise_1_2( vec2( pindex, uTime * uSpeed ) ) ;
 	displaced.z += rndz * uDepth;
 
-	// mode
-	float px;
-	float py;
-	float minfiy = 0.01 * uSpeed;
-	float deg = ran * uTime * minfiy;
-	float ease = .05;
-
-	float disTime = uMaxTime - uTime + ( 360.0 - ran ) * ease;
-	if(disTime < 0.0) disTime = 0.0;
-	
-	float nRaduis;
-	if(uTime > uMaxTime - ( 360.0 - ran ) * ease) nRaduis = disTime * 0.0;
-	else nRaduis = uRadius;
-
-	if(uMode < 0.1){
-		px = cos( deg ) * nRaduis * layer;
-		py = sin( deg ) * -nRaduis * layer;
-	}
-	else if(uMode > 0.9 && uMode < 1.1){
-		px = cos( deg ) * nRaduis * rndz * layer;
-		py = tan( deg * .5 ) * -nRaduis * layer;
-	}
-	else if(uMode > 1.9 && uMode <= 2.1){
-		px = tan( deg * 2.0 ) * nRaduis * layer;
-		py = tan( deg ) * -nRaduis * layer;
-	}
-	else {
-		px = tan( deg * rndz ) * nRaduis * layer;
-		py = cos( deg ) * nRaduis * layer;
-	}
-
-	displaced.x += uPx + px;
-	displaced.y += uPy + py;
-	
+	float t = uTime / uMaxTime;
+	if(t > 1.0) t = 1.0;
+	displaced.z += ease( 1.0 - t ) * ran;
+	//displaced.x += ease( 1.0 - t ) * ran * rndz;
 	// particle size
 	float psize = 1.0;
 	psize *= uSize;
