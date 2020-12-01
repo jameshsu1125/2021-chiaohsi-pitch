@@ -7,15 +7,16 @@
 
 ```
 $ [sudo] npm i webpack webpack-cli webpack-dev-server node-pre-gyp -g
+$ npm i
 ```
 
-### Test project
+### test project
 
 ```
 $ npm start
 ```
 
-#### project run with http://localhost:8080
+#### test on http://localhost:8080
 
 ### output to /dist
 
