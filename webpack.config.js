@@ -24,13 +24,6 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['*', '.js', '.jsx'],
-		alias: {
-			LESCA: path.resolve(__dirname, 'src/LESCA/'),
-			UI: path.resolve(__dirname, 'src/LESCA/UI/'),
-			DEVICE: path.resolve(__dirname, 'src/LESCA/Device/'),
-			EVENT: path.resolve(__dirname, 'src/LESCA/Event/'),
-			UNIT: path.resolve(__dirname, 'src/LESCA/Unit/'),
-		},
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist/'),
