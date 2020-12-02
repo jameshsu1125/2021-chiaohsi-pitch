@@ -2,7 +2,7 @@ var THREE = require('three');
 const glslify = require('glslify');
 require('jquery-easing');
 const Mode = require('./mode');
-const Device = require('DEVICE/UserAgent');
+const Device = require('lesca').UserAgent;
 const $ = require('jquery');
 require('jquery-easing');
 

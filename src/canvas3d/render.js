@@ -1,4 +1,4 @@
-const EnterFrame = require('UNIT/EnterFrame');
+const EnterFrame = require('lesca').EnterFrame;
 const THREE = require('three');
 const OrbitControls = require('./Orbit')(THREE);
 const Stats = require('stats-js');

@@ -6,20 +6,21 @@ import Render from './render';
 import Particles from './particles';
 
 import Dat from 'dat.gui';
-import ImageCaptureButtom from 'UI/ImageCaptureButtom';
+import InputCapture from 'lesca/lib/InputCapture';
+
 import './main.less';
 
 import { Howl } from 'howler';
 import $ from 'jquery';
 
-const Device = require('DEVICE/UserAgent');
+import { UserAgent } from 'lesca';
 
 export default class main extends React.Component {
 	constructor(props) {
 		super(props);
 
 		let img;
-		if (Device.get() == 'desktop') img = require('./img/mat.png');
+		if (UserAgent.get() == 'desktop') img = require('./img/mat.png');
 		else img = require('./img/mat2.png');
 
 		Particles.init(Scene, img);
@@ -102,7 +103,7 @@ export default class main extends React.Component {
 	render() {
 		return (
 			<div id='canvas3d'>
-				<ImageCaptureButtom ref='capture' onend={this.onCapture.bind(this)} />
+				<InputCapture ref='capture' onend={this.onCapture.bind(this)} />
 			</div>
 		);
 	}
